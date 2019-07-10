@@ -10,6 +10,12 @@ pipeline {
     version_number_filename = version_number.replaceAll(".", "_")
     git_hash = sh returnStdout: true, script: 'git rev-parse --short HEAD'
     branch = sh returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD'
+
+    mockApp = "app/build/⁨outputs⁩/⁨apk⁩/⁨live⁩/⁨release⁩/app-mock-release"
+    liveApp = "app/build/⁨outputs⁩/⁨apk/mock/⁨release⁩/app-live-release"
+    fileNameExt = "${version_number_filename}-build-${build_number}-git-${git_hash}"
+    mockAppRenamed =  "${mockApp}_${fileNameExt}"ą
+    liveAppRenamed =  "${liveApp}_${fileNameExt}"
   }
   stages {
     stage('Checkout Submodules') {
@@ -54,7 +60,7 @@ pipeline {
     stage('Sonar analysis') {
       steps {
         withSonarQubeEnv('Sonar') { 
-          sh "sonar-scanner -Dsonar.branch=${branch()}"
+          sh "sonar-scanner -Dsonar.branch=${branch}"
         }
       }
     }
@@ -65,20 +71,14 @@ pipeline {
     }
     stage('Deploy artifactory') {
 
-      def mockApp = "app/build/⁨outputs⁩/⁨apk⁩/⁨live⁩/⁨release⁩/app-mock-release"
-      def liveApp = "app/build/⁨outputs⁩/⁨apk/mock/⁨release⁩/app-live-release"
-      def fileNameExt = "${version_number_filename()}-build-${build_number()}-git-${git_hash()}"
-      def mockAppRenamed =  "${mockApp}_${fileNameExt}"
-      def liveAppRenamed =  "${liveApp}_${fileNameExt}"
-
       // when { 
       //   branch "develop" 
       // }
       steps {
         sh "cp ${mockApp}.apk ${mockAppRenamed}.apk"
         sh "cp ${liveApp}.apk ${liveAppRenamed}.apk"
-        sh "jfrog rt u ${mockAppRenamed}.apk mobile-ci-android/hu.dpal.mobileci/${version_number()}/${build_number()}/mock/{1} --build-name=MobileCIAndroidMock --build-number=${build_number()} --props=\"git=${git_hash}\""
-        sh "jfrog rt u ${liveAppRenamed}.apk mobile-ci-android/hu.dpal.mobileci/${version_number()}/${build_number()}/live/{1} --build-name=MobileCIAndroidLive --build-number=${build_number()} --props=\"git=${git_hash}\""
+        sh "jfrog rt u ${mockAppRenamed}.apk mobile-ci-android/hu.dpal.mobileci/${version_number}/${build_number}/mock/{1} --build-name=MobileCIAndroidMock --build-number=${build_number} --props=\"git=${git_hash}\""
+        sh "jfrog rt u ${liveAppRenamed}.apk mobile-ci-android/hu.dpal.mobileci/${version_number}/${build_number}/live/{1} --build-name=MobileCIAndroidLive --build-number=${build_number} --props=\"git=${git_hash}\""
       }
     }
     stage('Deploy fabric') {

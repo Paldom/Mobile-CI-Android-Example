@@ -14,7 +14,7 @@ pipeline {
     mockApp = "app/build/⁨outputs⁩/⁨apk⁩/⁨live⁩/⁨release⁩/app-mock-release"
     liveApp = "app/build/⁨outputs⁩/⁨apk/mock/⁨release⁩/app-live-release"
     fileNameExt = "${version_number_filename}-build-${build_number}-git-${git_hash}"
-    mockAppRenamed =  "${mockApp}_${fileNameExt}"ą
+    mockAppRenamed =  "${mockApp}_${fileNameExt}"
     liveAppRenamed =  "${liveApp}_${fileNameExt}"
   }
   stages {

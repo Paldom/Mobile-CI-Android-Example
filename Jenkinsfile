@@ -54,7 +54,7 @@ pipeline {
     stage('Coverage') {
       steps {
         sh './gradlew clean jacocoTestReport'
-        archiveArtifacts(artifacts: 'app/build/reports/⁨coverage⁩/⁨mock⁩/⁨debug⁩/**/*.*', fingerprint: true)
+        archiveArtifacts(artifacts: 'app/build/reports/coverage/mock/debug/**/*.*', fingerprint: true)
       }
     }
     stage('Sonar analysis') {

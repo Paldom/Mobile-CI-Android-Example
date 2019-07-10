@@ -5,9 +5,9 @@ pipeline {
     }
   }
   environment {
-    build_number = sh returnStdout: true, script: './gradlew -q printVersionCode'
-    version_number = sh returnStdout: true, script: './gradlew -q printVersionName'
-    version_number_filename = version_number.replaceAll(".", "_")
+    build_number = sh(returnStdout: true, script: './gradlew -q printVersionCode').trim()
+    version_number = sh(returnStdout: true, script: './gradlew -q printVersionName').trim()
+    version_number_filename = version_number.replaceAll("\\.", "_")
     git_hash = sh returnStdout: true, script: 'git rev-parse --short HEAD'
     branch = sh returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD'
 

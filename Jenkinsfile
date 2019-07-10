@@ -21,7 +21,7 @@ pipeline {
     stage('Checkout Submodules') {
       steps {
         sh 'git submodule update --init --recursive'
-        sh 'mv keys/fabric.properties app/fabric.properties'
+        sh 'cp keys/fabric.properties app/fabric.properties'
       }
     }
     stage('Lint') {

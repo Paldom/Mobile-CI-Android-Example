@@ -8,8 +8,8 @@ pipeline {
     build_number = sh(returnStdout: true, script: './gradlew -q printVersionCode').trim()
     version_number = sh(returnStdout: true, script: './gradlew -q printVersionName').trim()
     version_number_filename = version_number.replaceAll("\\.", "_")
-    git_hash = sh returnStdout: true, script: 'git rev-parse --short HEAD'
-    branch = sh returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD'
+    git_hash = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
+    branch = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
 
     mockApp = "app/build/outputs/apk/mock/release/app-mock-release"
     liveApp = "app/build/outputs/apk/live/release/app-live-release"

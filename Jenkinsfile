@@ -11,8 +11,8 @@ pipeline {
     git_hash = sh returnStdout: true, script: 'git rev-parse --short HEAD'
     branch = sh returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD'
 
-    mockApp = "app/build/⁨outputs⁩/⁨apk⁩/⁨live⁩/⁨release⁩/app-mock-release"
-    liveApp = "app/build/⁨outputs⁩/⁨apk/mock/⁨release⁩/app-live-release"
+    mockApp = "app/build/outputs⁩/⁨apk⁩/live⁩/release⁩/app-mock-release"
+    liveApp = "app/build/outputs⁩/apk/mock/release⁩/app-live-release"
     fileNameExt = "${version_number_filename}-build-${build_number}-git-${git_hash}"
     mockAppRenamed =  "${mockApp}_${fileNameExt}"
     liveAppRenamed =  "${liveApp}_${fileNameExt}"

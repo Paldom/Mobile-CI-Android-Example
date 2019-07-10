@@ -64,15 +64,17 @@ pipeline {
       }
     }
     stage('Deploy artifactory') {
+
+      def mockApp = "app/build/⁨outputs⁩/⁨apk⁩/⁨live⁩/⁨release⁩/app-mock-release"
+      def liveApp = "app/build/⁨outputs⁩/⁨apk/mock/⁨release⁩/app-live-release"
+      def fileNameExt = "${version_number_filename()}-build-${build_number()}-git-${git_hash()}"
+      def mockAppRenamed =  "${mockApp}_${fileNameExt}"
+      def liveAppRenamed =  "${liveApp}_${fileNameExt}"
+
       // when { 
       //   branch "develop" 
       // }
       steps {
-        def mockApp = "app/build/⁨outputs⁩/⁨apk⁩/⁨live⁩/⁨release⁩/app-mock-release"
-        def liveApp = "app/build/⁨outputs⁩/⁨apk/mock/⁨release⁩/app-live-release"
-        def fileNameExt = "${version_number_filename()}-build-${build_number()}-git-${git_hash()}"
-        def mockAppRenamed =  "${mockApp}_${fileNameExt}"
-        def liveAppRenamed =  "${liveApp}_${fileNameExt}"
         sh "cp ${mockApp}.apk ${mockAppRenamed}.apk"
         sh "cp ${liveApp}.apk ${liveAppRenamed}.apk"
         sh "jfrog rt u ${mockAppRenamed}.apk mobile-ci-android/hu.dpal.mobileci/${version_number()}/${build_number()}/mock/{1} --build-name=MobileCIAndroidMock --build-number=${build_number()} --props=\"git=${git_hash}\""

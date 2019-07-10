@@ -76,8 +76,8 @@ pipeline {
       steps {
         sh "cp ${mockApp}.apk ${mockAppRenamed}.apk"
         sh "cp ${liveApp}.apk ${liveAppRenamed}.apk"
-        sh "jfrog rt u ${mockAppRenamed}.apk mobile-ci-android/hu.dpal.mobileci/${version_number}/${build_number}/mock/{1} --build-name=MobileCIAndroidMock --build-number=${build_number} --props=\"git=${git_hash}\""
-        sh "jfrog rt u ${liveAppRenamed}.apk mobile-ci-android/hu.dpal.mobileci/${version_number}/${build_number}/live/{1} --build-name=MobileCIAndroidLive --build-number=${build_number} --props=\"git=${git_hash}\""
+        sh "jfrog rt u ${mockAppRenamed}.apk mobile-ci-android/hu/dpal/mobileci/${version_number}/${build_number}/mock/{1} --build-name=MobileCIAndroidMock --build-number=${build_number} --props=\"git=${git_hash}\""
+        sh "jfrog rt u ${liveAppRenamed}.apk mobile-ci-android/hu/dpal/mobileci/${version_number}/${build_number}/live/{1} --build-name=MobileCIAndroidLive --build-number=${build_number} --props=\"git=${git_hash}\""
       }
     }
     stage('Deploy fabric') {
